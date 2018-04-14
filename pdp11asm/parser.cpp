@@ -275,7 +275,7 @@ void Parser::nextToken2() {
     return;
   }
 
-  if(c>='0' && c<='9') {
+  if((c>='0' && c<='9') || c=='-') {
     int radix = 0;
     bool neg = (c=='-');
     if(neg) c = *cursor++;
