@@ -264,6 +264,10 @@ bool Compiler::compileLine2() {
       for(;p.tokenNum>0; p.tokenNum--) out.write16(0);
       return true;
     }
+    if(p.ifToken("even")) {
+      out.writePtr = (out.writePtr + 1) / 2 * 2;
+      return true;
+    }
     p.cfg.altstringb = '/';
     p.cfg.altstringe = '/';
     if(p.ifToken("ascii")) {
