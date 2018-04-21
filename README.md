@@ -29,7 +29,7 @@ g++ pdp11asm/*.cpp -o compiler
 }
 ```
 
-`<path_to_compiler>` - это путь к файлу compile.sh на вашем компьютере.
+`<path_to_compiler>` - это полный путь к файлу [compile.sh](https://gist.github.com/imachug/3a27a7516fc50b5b8b2595b8af2d571e) на вашем компьютере (относительный путь типа `~/Documents` почему-то не работает).
 
 5. Теперь, чтобы транслировать ассемблерную программу, нажмите в Sublime Text <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>, выберите `BK0010`. В следующий раз будет работать просто <kbd>Ctrl</kbd>+<kbd>B</kbd>.
 
