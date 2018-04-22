@@ -102,7 +102,7 @@ bool Compiler::ifConst3(Parser::num_t& a, bool numIsLabel) {
   unsigned o;
   while(p.ifToken(ops, o)) {
     Parser::num_t b;
-    if(!ifConst4(b, numIsLabel)) p.syntaxError();
+    if(!ifConst4(b, numIsLabel)) p.syntaxError("Not a constant after operator");
     switch(o) {
       case 0: a += b; break;
       case 1: a -= b; break;
@@ -117,7 +117,7 @@ bool Compiler::ifConst3(Parser::num_t& a, bool numIsLabel) {
 
 Parser::num_t Compiler::readConst3(bool numIsLabel) {
   Parser::num_t i;
-  if(!ifConst3(i, numIsLabel)) p.syntaxError();
+  if(!ifConst3(i, numIsLabel)) p.syntaxError("Not a const3");
   return i;
 }
 
@@ -126,7 +126,7 @@ Parser::num_t Compiler::readConst3(bool numIsLabel) {
 void Compiler::compileOrg()
 {
     Parser::num_t o = readConst3();
-    if(o < 0 || o > sizeof(out.writeBuf)) p.syntaxError();
+    if(o < 0 || o > sizeof(out.writeBuf)) p.syntaxError("Wrong offset");
     out.writePosChanged = true;
     out.writePtr = (size_t)o;
 }
@@ -144,15 +144,15 @@ void Compiler::compileByte() {
       if(p.ifToken("dup")) {
         p.needToken("(");
         Parser::num_t d = readConst3();
-        if(d>std::numeric_limits<unsigned char>::max()) p.syntaxError();
+        if(d>std::numeric_limits<unsigned char>::max()) p.syntaxError("Too big dup() byte");
         p.needToken(")");
         for(;c>0; c--) out.write8((unsigned char)d);
       } else {
-        if(c>std::numeric_limits<unsigned char>::max()) p.syntaxError();
+        if(c>std::numeric_limits<unsigned char>::max()) p.syntaxError("Too big byte");
         out.write8((unsigned char)c);
       }
     } else {
-      p.syntaxError();
+      p.syntaxError("Not a const3");
     }
     if(!p.ifToken(",")) break;
   }
@@ -166,11 +166,11 @@ void Compiler::compileWord() {
     if(p.ifToken("dup")) {
       p.needToken("(");
       Parser::num_t d = readConst3();
-      if(d>std::numeric_limits<unsigned short>::max()) p.syntaxError();
+      if(d>std::numeric_limits<unsigned short>::max()) p.syntaxError("Too big dup() word");
       p.needToken(")");
       for(;c>0; c--) out.write16((short)d);
     } else {
-      if(c>std::numeric_limits<unsigned short>::max()) p.syntaxError();
+      if(c>std::numeric_limits<unsigned short>::max()) p.syntaxError("Too big word");
       out.write16((short)c);
     }
     if(!p.ifToken(",")) break;
@@ -181,7 +181,7 @@ void Compiler::compileWord() {
 
 void Compiler::makeLocalLabelName() {
   // p.loadedNum is unsigned
-  if(p.loadedNum > std::numeric_limits<int>::max()) p.syntaxError();
+  if(p.loadedNum > std::numeric_limits<int>::max()) p.syntaxError("Too big label");
   snprintf(p.loadedText, sizeof(p.loadedText), "%s@%i", lastLabel, (int)p.loadedNum); //! overflow
 }
 
@@ -289,7 +289,7 @@ bool Compiler::compileLine2() {
     }
     p.cfg.altstringb = 0;
     p.cfg.altstringe = 0;
-    p.syntaxError();
+    p.syntaxError("Unknown .COMMAND");
   }
 
   // ???????? ????????? ?????
@@ -306,7 +306,7 @@ bool Compiler::compileLine2() {
     }
     // ???????? ?????? ?? ?????? ???????
     if(step2) {
-      if(stop<=start || stop>sizeof(out.writeBuf)) p.syntaxError();
+      if(stop<=start || stop>sizeof(out.writeBuf)) p.syntaxError("Invalid stop");
       size_t length = stop - start;
 
 
@@ -346,7 +346,7 @@ bool Compiler::compileLine2() {
         }
         if(step2)
         {
-            if(stop<=start || stop>sizeof(out.writeBuf)) p.syntaxError();
+            if(stop<=start || stop>sizeof(out.writeBuf)) p.syntaxError("Invalid stop");
             size_t length = stop - start;
             char error_buf[256];
             if(!make_radio86rk_rom(fileName, start, out.writeBuf+start, length, error_buf, sizeof(error_buf)))
@@ -381,7 +381,7 @@ bool Compiler::compileLine2() {
       if(!f.is_open()) p.syntaxError("Can't open file");
       if(size==0) size = (size_t)f.rdbuf()->pubseekoff(0, std::ifstream::end);  //! ??? ????? ???? ????????????
     }
-    if(size<0 || out.writePtr+size>=65536) p.syntaxError();
+    if(size<0 || out.writePtr+size>=65536) p.syntaxError("Invalid size");
     if(step2) {
       f.rdbuf()->pubseekoff(start, std::ifstream::beg);
       f.rdbuf()->sgetn(out.writePtr+out.writeBuf, size);
@@ -394,7 +394,7 @@ bool Compiler::compileLine2() {
   // ????????? ???
   if(p.ifToken("align")) {
     p.needToken(ttInteger);
-    if(p.loadedNum < 1 || p.loadedNum >= std::numeric_limits<size_t>::max()) p.syntaxError();
+    if(p.loadedNum < 1 || p.loadedNum >= std::numeric_limits<size_t>::max()) p.syntaxError("Invalid size");
     size_t a = size_t(p.loadedNum);
     out.writePtr = (out.writePtr + a - 1) / a * a;
     return true;

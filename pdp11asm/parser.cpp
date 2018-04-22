@@ -160,7 +160,7 @@ retry:
       if(!m->disabled && 0==strcmp(m->id.c_str(), tokenText)) {
         nextToken();
         if(m->args.size()>0) {
-          if(token!=ttOperator || 0!=strcmp(tokenText, "(")) syntaxError();
+          if(token!=ttOperator || 0!=strcmp(tokenText, "(")) syntaxError("Expected operator or (");
           std::vector<std::string> noArgs;
           for(unsigned int j=0; j<m->args.size(); j++) {
             std::string out;
@@ -184,7 +184,7 @@ void Parser::exitPrep()
 {
     cfg = prepCfg;
     macroOff = false;
-    if(token!=ttEof && token!=ttEol) syntaxError();
+    if(token!=ttEof && token!=ttEol) syntaxError("Expected EOF or EOL");
 }
 
 //-----------------------------------------------------------------------------
