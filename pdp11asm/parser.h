@@ -26,7 +26,7 @@ public:
         void (*prep)(Parser& p);
     };
 
-  typedef uint32_t num_t;
+  typedef int32_t num_t;
   static const size_t maxTokenText = 256;
   typedef char TokenText[maxTokenText];
 
