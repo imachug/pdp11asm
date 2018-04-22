@@ -129,6 +129,7 @@ void Compiler::compileOrg()
     if(o < 0 || o > sizeof(out.writeBuf)) p.syntaxError("Wrong offset");
     out.writePosChanged = true;
     out.writePtr = (size_t)o;
+    p.linkFrom = (size_t)o;
 }
 
 //-----------------------------------------------------------------------------

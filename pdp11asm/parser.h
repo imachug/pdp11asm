@@ -30,6 +30,8 @@ public:
   static const size_t maxTokenText = 256;
   typedef char TokenText[maxTokenText];
 
+  size_t linkFrom;
+
   // ���������
   Config cfg;
   Config prepCfg;
