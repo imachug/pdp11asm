@@ -25,7 +25,7 @@ g++ pdp11asm/*.cpp -o compiler
 
 ```json
 {
-    "shell_cmd": "<path_to_compiler>/compile.sh \"$file_path/$file_name\""
+    "shell_cmd": "\"<path_to_compiler>/compile.sh\" \"$file_path/$file_name\""
 }
 ```
 
