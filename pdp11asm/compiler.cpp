@@ -512,17 +512,17 @@ void Compiler::compileFile(const syschar_t* fileName) {
 
   if(needCreateOutputFile && out.min<out.max) {
     sysstring_t fileName2 = replaceExtension(fileName, "bin");
-    if(fileName != fileName2) {
-      saveStringToFile(fileName2.c_str(), out.writeBuf+out.min, out.max-out.min);
-      /*
-      std::ofstream f;
-      f.open(fileName2.c_str(), std::ofstream::binary|std::ofstream::out);
-      if(!f.is_open()) p.syntaxError("Can't create file");
-      f.write(out.writeBuf+out.min, out.max-out.min);
-      f.close();
-      lstWriter.writeFile(fileName);
-      */
-    }
+
+    size_t start = p.linkFrom, stop = out.writePtr;
+    if(stop<=start || stop>sizeof(out.writeBuf)) p.syntaxError("Invalid stop");
+    size_t length = stop - start;
+
+    std::string o;
+    o.append((const char*)&start, 2);
+    o.append((const char*)&length, 2);
+    o.append(out.writeBuf+start, length);
+    saveStringToFile(fileName2.c_str(), o.c_str(), o.size());
+    lstWriter.writeFile(fileName);
   }
 }
 
