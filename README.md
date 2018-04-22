@@ -23,7 +23,7 @@ make
 
 4. Вам понадобится текстовый редактор Sublime Text и [плагин для подсветки синтаксиса DEC/PDP11](https://gist.github.com/imachug/3ab11df5e91c8d815a8c63a76bb08b14).
 
-5. В настройках Sublime Text выберете *Browse packages...*. Откроется папка пакетов. Создайте в подпапке `User` файл [BK0010.sublime-build](https://gist.github.com/imachug/223e7b30b041ec93938f1c8dda6afaf7). Замените `/Users/Ivanq/Documents/BK0010/compile.sh` на полный путь к файлу [compile.sh](https://gist.github.com/imachug/3a27a7516fc50b5b8b2595b8af2d571e) на вашем компьютере (относительный путь типа `~/Documents` почему-то не работает). Чтобы узнать полный путь к файлу на MacOS, нажмите на него правой кнопкой мыши, затем удерживайте <kbd>alt</kbd> и выберете *Copy as Pathname*.
+5. В настройках Sublime Text выберете *Browse packages...*. Откроется папка пакетов. Скачайте файл [BK0010.sublime-build](https://gist.github.com/imachug/223e7b30b041ec93938f1c8dda6afaf7) и положите его в поддиректорию `User`. Откройте файл текстовым редактором и замените в нём `/Users/Ivanq/Documents/BK0010/compile.sh` на полный путь к файлу [compile.sh](https://gist.github.com/imachug/3a27a7516fc50b5b8b2595b8af2d571e) на вашем компьютере (относительный путь типа `~/Documents` почему-то не работает). Чтобы узнать полный путь к файлу на MacOS, нажмите на него правой кнопкой мыши, затем удерживайте <kbd>alt</kbd> и выберете *Copy as Pathname*.
 
 6. Теперь, чтобы транслировать ассемблерную программу, нажмите в Sublime Text <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>, выберите `BK0010`. В следующий раз будет работать просто <kbd>Ctrl</kbd>+<kbd>B</kbd>.
 
