@@ -300,7 +300,7 @@ bool Compiler::compileLine2() {
     p.needToken(ttString2);
     Parser::TokenText fileName;
     strcpy(fileName, p.loadedText);
-    size_t start = 0, stop = out.writePtr;
+    size_t start = p.linkFrom, stop = out.writePtr;
     if(p.ifToken(",")) {
       start = ullong2size_t(readConst3());
       if(p.ifToken(",")) stop = ullong2size_t(readConst3());
@@ -339,7 +339,7 @@ bool Compiler::compileLine2() {
         p.needToken(ttString2);
         Parser::TokenText fileName;
         strcpy(fileName, p.loadedText);
-        size_t start = 0, stop = out.writePtr;
+        size_t start = p.linkFrom, stop = out.writePtr;
         if(p.ifToken(","))
         {
             start = ullong2size_t(readConst3());
