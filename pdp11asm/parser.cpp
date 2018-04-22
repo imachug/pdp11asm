@@ -55,7 +55,7 @@ Parser::Parser() {
   loadedText[0] = 0;
   loadedTextSize = 0;
 
-  linkFrom = 0;
+  linkFrom = 01000;
 
   init("");
 }
