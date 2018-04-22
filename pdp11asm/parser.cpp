@@ -275,10 +275,15 @@ void Parser::nextToken2() {
     return;
   }
 
-  if((c>='0' && c<='9') || c=='-') {
+  bool neg = false;
+  if(c=='-') {
+    neg = true;
+    if(*cursor>='0' && *cursor<='9') {
+      c = *cursor++;
+    }
+  }
+  if(c>='0' && c<='9') {
     int radix = 0;
-    bool neg = (c=='-');
-    if(neg) c = *cursor++;
 
     // Если число начинается с 0x - то читаем 16-ричное    
     if(c=='0' && radix==0) {
