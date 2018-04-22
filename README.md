@@ -21,7 +21,7 @@ g++ pdp11asm/*.cpp -o compiler
 
 3. Вам понадобится текстовый редактор Sublime Text и [плагин для подсветки синтаксиса DEC/PDP11](https://gist.github.com/imachug/3ab11df5e91c8d815a8c63a76bb08b14).
 
-4. В настройках Sublime Text выберете *Browse packages...*. Откроется папка пакетов. Создайте в ней файл `Packages/User/BK0010.sublime-build`:
+4. В настройках Sublime Text выберете *Browse packages...*. Откроется папка пакетов. Создайте в ней файл `User/BK0010.sublime-build`:
 
 ```json
 {
