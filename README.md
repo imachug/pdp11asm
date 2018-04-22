@@ -6,7 +6,7 @@
 ## Как собрать транслятор из исходников
 
 ```bash
-g++ pdp11asm/*.cpp -o compiler
+make
 ```
 
 Скомпилированые бинарники под некоторые платформы лежат в папке [release](https://github.com/imachug/pdp11asm/tree/master/release).
