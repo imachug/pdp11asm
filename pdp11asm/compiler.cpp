@@ -302,7 +302,7 @@ bool Compiler::compileLine2() {
     if(p.ifToken(ttString2)) {
       strcpy(fileName, p.loadedText);
     } else {
-      strcpy(fileName, replaceExtension(sourceFile, make_raw ? "exe" : "bin").c_str());
+      strcpy(fileName, replaceExtension(sourceFile, make_raw ? "" : "bin").c_str());
     }
 
     size_t start = p.linkFrom, stop = out.writePtr;
