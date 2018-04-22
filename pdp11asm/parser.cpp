@@ -97,9 +97,9 @@ void Parser::nextToken() {
   sigCursor = cursor;
 
     do {
-        for(;*cursor==32 || *cursor==13 || (!cfg.eol && *cursor==10) || *cursor==9; cursor++)
-            if(*cursor==10) { line++; col=1; }
-            else if(*cursor!=13) col++;
+        for(;*cursor==' ' || *cursor=='\r' || (!cfg.eol && *cursor=='\n') || *cursor=='\t'; cursor++)
+            if(*cursor=='\n') { line++; col=1; }
+            else if(*cursor!='\r') col++;
 
         // Парсим
         tokenText[0]=0;
@@ -116,10 +116,10 @@ retry:
             token=ttEof;
             return;
         }
-        if(c!=' ' && c!=10 && c!=13 && c!=9) break;
+        if(c!=' ' && c!='\n' && c!='\r' && c!='\t') break;
         cursor++;
-        if(c==10) line++, col=1;
-        if(cfg.eol && c==10) {
+        if(c=='\n') line++, col=1;
+        if(cfg.eol && c=='\n') {
             token=ttEol;
             return;
         }
