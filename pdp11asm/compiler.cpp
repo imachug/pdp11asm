@@ -415,12 +415,23 @@ bool Compiler::compileLine2() {
     for(;p.tokenNum>0; p.tokenNum--) out.write8(0);
     return true;
   }
-  switch(processor) {
-    case P_PDP11: if(compileLine_pdp11()) return true; break;
-    case P_8080: if(compileLine_8080()) return true; break;
+  while(true) {
+    bool ok = false;
+    switch(processor) {
+      case P_PDP11: ok = compileLine_pdp11(); break;
+      case P_8080: ok = compileLine_8080(); break;
+    }
+    if(!ok) {
+      ok = compileLine_bitmap();
+    }
+    if(!ok) {
+      return false;
+    }
+
+    if(p.ifToken(ttEol) || p.ifToken(ttEof)) {
+      return true;
+    }
   }
-  if(compileLine_bitmap()) return true;
-  return false;
 }
 
 void Compiler::compileLine() {
