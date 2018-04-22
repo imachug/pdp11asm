@@ -297,9 +297,14 @@ bool Compiler::compileLine2() {
   bool make_binary_file = p.ifToken("make_binary_file");
   if(make_binary_file || p.ifToken("make_bk0010_rom")) {
     needCreateOutputFile = false;
-    p.needToken(ttString2);
+
     Parser::TokenText fileName;
-    strcpy(fileName, p.loadedText);
+    if(p.ifToken(ttString2)) {
+      strcpy(fileName, p.loadedText);
+    } else {
+      strcpy(fileName, replaceExtension(sourceFile, make_binary_file ? "exe" : "bin").c_str());
+    }
+
     size_t start = p.linkFrom, stop = out.writePtr;
     if(p.ifToken(",")) {
       start = ullong2size_t(readConst3());
