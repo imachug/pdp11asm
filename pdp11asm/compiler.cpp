@@ -339,29 +339,6 @@ bool Compiler::compileLine2() {
     return true;
   }
 
-    if(p.ifToken("make_radio86rk_rom"))
-    {
-        p.needToken(ttString2);
-        Parser::TokenText fileName;
-        strcpy(fileName, p.loadedText);
-        size_t start = p.linkFrom, stop = out.writePtr;
-        if(p.ifToken(","))
-        {
-            start = ullong2size_t(readConst3());
-            if(p.ifToken(",")) stop = ullong2size_t(readConst3());
-        }
-        if(step2)
-        {
-            if(stop<=start || stop>sizeof(out.writeBuf)) p.syntaxError("Invalid stop");
-            size_t length = stop - start;
-            char error_buf[256];
-            if(!make_radio86rk_rom(fileName, start, out.writeBuf+start, length, error_buf, sizeof(error_buf)))
-                p.syntaxError(error_buf);
-            lstWriter.writeFile(fileName);
-        }
-        return true;
-    }
-
   if(p.ifToken("convert1251toKOI8R")) {
     convert1251toKOI8R = !p.ifToken("OFF");
     return true;
