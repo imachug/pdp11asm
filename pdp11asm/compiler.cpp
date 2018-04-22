@@ -294,15 +294,15 @@ bool Compiler::compileLine2() {
   }
 
   // ???????? ????????? ?????
-  bool make_binary_file = p.ifToken("make_binary_file");
-  if(make_binary_file || p.ifToken("make_bk0010_rom")) {
+  bool make_raw = p.ifToken("make_raw");
+  if(make_raw || p.ifToken("make_bk0010_rom")) {
     needCreateOutputFile = false;
 
     Parser::TokenText fileName;
     if(p.ifToken(ttString2)) {
       strcpy(fileName, p.loadedText);
     } else {
-      strcpy(fileName, replaceExtension(sourceFile, make_binary_file ? "exe" : "bin").c_str());
+      strcpy(fileName, replaceExtension(sourceFile, make_raw ? "exe" : "bin").c_str());
     }
 
     size_t start = p.linkFrom, stop = out.writePtr;
@@ -317,7 +317,7 @@ bool Compiler::compileLine2() {
 
 
       std::string o;
-      if(!make_binary_file) {
+      if(!make_raw) {
           o.append((const char*)&start, 2);
           o.append((const char*)&length, 2);
       }
@@ -327,7 +327,7 @@ bool Compiler::compileLine2() {
       std::ofstream f;
       f.open(fileName, std::ofstream::binary|std::ofstream::out);
       if(!f.is_open()) p.syntaxError("Can't create file");
-      if(!make_binary_file) {
+      if(!make_raw) {
         f.write((const char*)&start, 2);
         f.write((const char*)&length, 2);
       }
