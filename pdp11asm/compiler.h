@@ -23,7 +23,7 @@ public:
     Processor processor;
     std::map<std::string, Parser::num_t> labels;
     char lastLabel[Parser::maxTokenText];
-    char sourceFile[1024];
+    sysstring_t sourceFile;
 
     // c_common.cpp
     Compiler();

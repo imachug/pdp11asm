@@ -31,7 +31,6 @@ public:
     void afterCompileLine2();
 
     void writeFile(const std::string& fileName);
-    void writeFile(const std::wstring& fileName);
 
     void appendBuffer(const char* data, size_t size);
     inline void appendBuffer(const char* data) { appendBuffer(data, strlen(data)); }

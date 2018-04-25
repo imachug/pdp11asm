@@ -3,12 +3,11 @@
 #include "compiler.h"
 #include <iostream>
 
-#ifdef WIN32
-int _tmain(int argc, wchar_t** argv) {
-    setlocale(LC_ALL, "RUSSIAN");
-#else // LINUX
 int main(int argc, char** argv) {
+#ifdef WIN32
+    setlocale(LC_ALL, "RUSSIAN");
 #endif
+
     printf("PDP11/8080 Assembler/C\nPRE PRE PRE ALPHA VERSION\n2017 (c) aleksey.f.morozov@gmail.com\n");
     try {
         Compiler c;
@@ -32,14 +31,3 @@ int main(int argc, char** argv) {
         return 1;
     }
 }
-
-#ifdef __MINGW32__
-#include <windows.h>
-
-INT WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, INT nCmdShow)
-{
-    int argc;
-    wchar_t** argv = CommandLineToArgvW(GetCommandLineW(), &argc);
-    return _tmain(argc, argv);
-}
-#endif
