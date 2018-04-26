@@ -100,7 +100,16 @@ bool Compiler::ifConst3(Parser::num_t& a, bool numIsLabel) {
   if(!ifConst4(a, numIsLabel)) return false;
   static const char* ops[] = { "+", "-", "*", "/", 0 };
   unsigned o;
-  while(p.ifToken(ops, o)) {
+  while(true) {
+    if(!p.ifToken(ops, o)) {
+      if(p.token == ttInteger && p.tokenNum < 0) {
+        // -x
+        o = 0; // like +(-x)
+      } else {
+        break;
+      }
+    }
+
     Parser::num_t b;
     if(!ifConst4(b, numIsLabel)) p.syntaxError("Not a constant after operator");
     switch(o) {
