@@ -307,7 +307,7 @@ bool Compiler::compileLine2() {
   if(make_raw || p.ifToken("make_bk0010_rom")) {
     needCreateOutputFile = false;
 
-    Parser::TokenText fileName;
+    syschar_t fileName[1024];
     if(p.ifToken(ttString2)) {
       strcpy(fileName, p.loadedText);
     } else {
@@ -474,7 +474,7 @@ void Compiler::compileFile(const syschar_t* fileName) {
   // ???????? ?????
   std::string source;
   loadStringFromFile(source, fileName);
-  strcpy(sourceFile, fileName);
+  sourceFile = sysstring_t(fileName);
 
   // ????????? ???? ??? INCLUDE-??????
   chdirToFile(fileName);

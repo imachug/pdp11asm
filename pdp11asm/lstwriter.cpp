@@ -26,15 +26,6 @@ void LstWriter::writeFile(const std::string& fileName) {
 
 //-----------------------------------------------------------------------------
 
-#ifdef WIN32
-void LstWriter::writeFile(const std::wstring& fileName) {
-  std::wstring fileName2 = replaceExtension(fileName, "lst");
-  if(fileName != fileName2) saveStringToFile(fileName2.c_str(), buffer.c_str(), buffer.size());
-}
-#endif
-
-//-----------------------------------------------------------------------------
-
 static size_t linelen(const char* p) {
   const char *a = strchr(p, '\r'), *b = strchr(p, '\n');
   if(a == 0 && b == 0) return strlen(p);

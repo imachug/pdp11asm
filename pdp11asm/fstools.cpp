@@ -6,8 +6,9 @@
 #include <algorithm>
 #include <limits>
 #include <stdexcept>
+#include <direct.h>
 
-void saveStringToFile(const wchar_t* fileName2, const void* buf, size_t len)
+void saveStringToFile(const char* fileName2, const void* buf, size_t len)
 {
     HANDLE h = CreateFile(fileName2, GENERIC_READ|GENERIC_WRITE, 0, 0, CREATE_ALWAYS, 0, 0);
     if(h == INVALID_HANDLE_VALUE) throw std::runtime_error("Can't create lst file");
@@ -27,7 +28,7 @@ uint64_t GetFileSize64(HANDLE hFile)
 
 //-----------------------------------------------------------------------------
 
-void loadStringFromFile(std::string& buffer, const wchar_t* fileName)
+void loadStringFromFile(std::string& buffer, const char* fileName)
 {
     HANDLE h = CreateFile(fileName, GENERIC_READ|GENERIC_WRITE, 0, 0, OPEN_EXISTING, 0, 0);
     if(h == INVALID_HANDLE_VALUE) throw std::runtime_error("Can't open file");
@@ -41,57 +42,10 @@ void loadStringFromFile(std::string& buffer, const wchar_t* fileName)
 
 //-----------------------------------------------------------------------------
 
-void chdirToFile(const wchar_t* fileName) {
-  wchar_t *a = wcsrchr(fileName, '/'), *b = wcsrchr(fileName, '\\');
+void chdirToFile(const char* fileName) {
+  char *a = strrchr(fileName, '/'), *b = strrchr(fileName, '\\');
   if(a==0 || b>a) a = b;
-  if(a) _wchdir(std::wstring(fileName, (size_t)(a-fileName)).c_str());
-}
-
-//-----------------------------------------------------------------------------
-
-static const wchar_t* fromUtf8(std::wstring& out, const char* str)
-{
-    size_t str_size = strlen(str);
-    out.resize(str_size);
-    MultiByteToWideChar(CP_UTF8, 0, str, str_size, (LPWSTR)out.c_str(), str_size); //! Ошибка
-    return out.c_str();
-}
-
-//-----------------------------------------------------------------------------
-
-void saveStringToFile(const char* fileName, const void* buf, size_t len)
-{
-    std::wstring w;
-    saveStringToFile(fromUtf8(w, fileName), buf, len);
-}
-
-//-----------------------------------------------------------------------------
-
-void loadStringFromFile(std::string& buf, const char* fileName)
-{
-    std::wstring w;
-    loadStringFromFile(buf, fromUtf8(w, fileName));
-}
-
-//-----------------------------------------------------------------------------
-
-void chdirToFile(const char* fileName)
-{
-    std::wstring w;
-    chdirToFile(fromUtf8(w, fileName));
-}
-
-//-----------------------------------------------------------------------------
-
-std::wstring replaceExtension(const std::wstring& fileName, const char* ext) {
-    size_t s = fileName.rfind('.');
-    if(s==std::string::npos || fileName.find('/', s)!=std::string::npos || fileName.find('\\', s)!=std::string::npos) return fileName;
-    if(ext[0] == '\0') {
-        // No extension
-        return fileName.substr(0, s);
-    }
-    std::wstring w;
-    return fileName.substr(0,s+1) + fromUtf8(w, ext);
+  if(a) _chdir(std::string(fileName, (size_t)(a-fileName)).c_str());
 }
 
 //-----------------------------------------------------------------------------
