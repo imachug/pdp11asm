@@ -378,8 +378,9 @@ bool Compiler::compileLine2() {
       f.rdbuf()->pubseekoff(start, std::ifstream::beg);
       f.rdbuf()->sgetn(out.writePtr+out.writeBuf, size);
       out.write(out.writePtr+out.writeBuf, size);
+    } else {
+      out.writePtr += (int)size;
     }
-    out.writePtr += (int)size; // ???????????? ????????? ???? // New author: Why was it commented?
     return true;
   }
 
