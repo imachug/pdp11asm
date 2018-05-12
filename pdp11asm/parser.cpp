@@ -4,6 +4,7 @@
 #include "parser.h"
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 #include <stdexcept>
 #include <memory>
 
