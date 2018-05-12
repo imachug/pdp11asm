@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <errno.h>
 
-#ifndef WIN32
+#ifndef __WIN32__
 #ifdef __APPLE__
 
 
